@@ -1,70 +1,46 @@
-#include<iostream>
+#include<bits/stdc++.h>
 using namespace std;
-#define size 3
-int a[3],queue[3],visited[3],adjacent[3][3],front=-1,rear=-1;
-void enqueue(int val){
-   if(rear==size-1){
-     cout<<"Queue Filled\n";}
-   else if(front==-1 && rear==-1){
-      front=rear=0;
-      queue[rear]=val;}
-   else{
-      rear=rear+1;
-      queue[rear]=val;}
-  }
-int dequeue(){
-   int value;
-   if((front==-1 && rear==-1)|| front>rear)
-     {cout<<"queue is empty\n";
-       return -1;
-      }
-    else{
-     value=queue[front];
-     front=front+1;
-     return value;
-    }
- 
+int adj[15][15],visited[15],n;
+void BFS(int k)
+{
+   queue<int>q;
+   visited[k]=1;
+   q.push(k);
+   while(!q.empty())
+{
+int ele=q.front();
+q.pop();
+cout<<ele<<" ";
+for(int i=0;i<n;i++)
+{
+if(adj[k][i]==1 && visited[i]==0)
+{
+q.push(i);
+visited[i]=1;
 }
-bool isempty(){
-
-   if((front==-1 && rear==-1)|| front>rear)
-     {
-      return true;}
-    return false;
-     }
- 
-void BFS(int source,int k){
-  int val1,index=k;
-  visited[k]=1;
-  enqueue(source);
-  cout<<source<<" ";
-  while(!isempty()){
-        val1=dequeue();
-            for(int i=0;i<3;i++){
-            if(adjacent[index][i]==1 && !visited[i]){
-             enqueue(a[i]);
-             cout<<a[i]<<" ";
-           }
-         }
-   }
 }
-
-
-int main(){
-  cout<<"enter nodes\n";
-  for(int i=0;i<4;i++)
-  {
-   cin>>a[i];}
-  int source,index;
-  cout<<"enter source and index\n";
-  cin>>source>>index;
-  for(int i=0;i<4;i++){
-    visited[i]=0;}
-  cout<<"Enter Adjacent matrix\n";
-  for(int i=0;i<4;i++)
-  {
-   for(int j=0;j<4;j++){
-     cin>>adjacent[i][j];}}
-   BFS(source,index);
-  return 0;
+}
+}
+int main()
+{
+int n;
+cout<<"Enter the number of nodes: ";
+cin>>n;
+for(int i=0;i<n;i++)
+visited[i]=0;
+cout<<"Enter the adjacency matrix: "<<endl;
+for(int i=0;i<n;i++)
+{
+for(int j=0;j<n;j++)
+{
+cin>>adj[i][j];
+}
+}
+cout<<endl;
+for(int i=0;i<n;i++)
+{
+if(visited[i]==0)
+BFS(i);
+}
+return 0;
 }
